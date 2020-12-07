@@ -1,0 +1,42 @@
+import mongoose from 'mongoose';
+import { Arg, FieldResolver, Mutation, Query, Resolver, ResolverInterface, Root } from 'type-graphql';
+
+import { UserModel } from '../users/models';
+
+import { PostInput } from './inputs';
+import { PostModel } from './models';
+import { Post } from './types';
+
+@Resolver(of => Post)
+export class PostResolver implements ResolverInterface<Post> {
+  @FieldResolver()
+  id(@Root() post) {
+    return post._id;
+  }
+
+  @FieldResolver()
+  async author(@Root() post) {
+    return await UserModel.findOne({
+      _id: mongoose.Types.ObjectId(post.authorId),
+    }) as any;
+  }
+
+  @Query(returns => [Post])
+  async posts() {
+    return PostModel.find({});
+  }
+
+  @Mutation(returns => Post)
+  async createPost(@Arg('post') input: PostInput) {
+    const { content, authorId } = input;
+
+      const post = new PostModel({
+        content,
+        authorId,
+      });
+      await post.save();
+
+      return post;
+  }
+
+}

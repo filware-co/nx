@@ -21,7 +21,7 @@ import { NxGraphqlSchematicSchema } from './schema';
 /**
  * Depending on your needs, you can change this to either `Library` or `Application`
  */
-const projectType = ProjectType.Library;
+const projectType = ProjectType.Application;
 
 interface NormalizedSchema extends NxGraphqlSchematicSchema {
   projectName: string;
@@ -67,16 +67,22 @@ export default function (options: NxGraphqlSchematicSchema): Rule {
   const normalizedOptions = normalizeOptions(options);
   return chain([
     updateWorkspace((workspace) => {
-      workspace.projects
+      const projects = workspace.projects
         .add({
           name: normalizedOptions.projectName,
           root: normalizedOptions.projectRoot,
           sourceRoot: `${normalizedOptions.projectRoot}/src`,
           projectType,
-        })
-        .targets.add({
+        });
+
+      projects.targets.add({
           name: 'build',
           builder: '@filware/nx-graphql:build',
+        })
+
+      projects.targets.add({
+          name: 'serve',
+          builder: '@filware/nx-graphql:serve',
         });
     }),
     addProjectToNxJsonInTree(normalizedOptions.projectName, {

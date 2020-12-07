@@ -10,39 +10,42 @@ describe('nx-graphql e2e', () => {
     const plugin = uniq('nx-graphql');
     ensureNxProject('@filware/nx-graphql', 'dist/packages/nx-graphql');
     await runNxCommandAsync(
-      `generate @filware/nx-graphql:nx-graphql ${plugin}`
+      `generate @filware/nx-graphql:app ${plugin}`
     );
 
     const result = await runNxCommandAsync(`build ${plugin}`);
     expect(result.stdout).toContain('Builder ran');
 
+    const result2 = await runNxCommandAsync(`serve ${plugin}`);
+    expect(result2.stdout).toContain('Builder ran');
+
     done();
   });
-
-  describe('--directory', () => {
-    it('should create src in the specified directory', async (done) => {
-      const plugin = uniq('nx-graphql');
-      ensureNxProject('@filware/nx-graphql', 'dist/packages/nx-graphql');
-      await runNxCommandAsync(
-        `generate @filware/nx-graphql:nx-graphql ${plugin} --directory subdir`
-      );
-      expect(() =>
-        checkFilesExist(`libs/subdir/${plugin}/src/index.ts`)
-      ).not.toThrow();
-      done();
-    });
-  });
-
-  describe('--tags', () => {
-    it('should add tags to nx.json', async (done) => {
-      const plugin = uniq('nx-graphql');
-      ensureNxProject('@filware/nx-graphql', 'dist/packages/nx-graphql');
-      await runNxCommandAsync(
-        `generate @filware/nx-graphql:nx-graphql ${plugin} --tags e2etag,e2ePackage`
-      );
-      const nxJson = readJson('nx.json');
-      expect(nxJson.projects[plugin].tags).toEqual(['e2etag', 'e2ePackage']);
-      done();
-    });
-  });
+  //
+  // describe('--directory', () => {
+  //   it('should create src in the specified directory', async (done) => {
+  //     const plugin = uniq('nx-graphql');
+  //     ensureNxProject('@filware/nx-graphql', 'dist/packages/nx-graphql');
+  //     await runNxCommandAsync(
+  //       `generate @filware/nx-graphql:app ${plugin} --directory subdir`
+  //     );
+  //     expect(() =>
+  //       checkFilesExist(`apps/subdir/${plugin}/src/index.ts`)
+  //     ).not.toThrow();
+  //     done();
+  //   });
+  // });
+  //
+  // describe('--tags', () => {
+  //   it('should add tags to nx.json', async (done) => {
+  //     const plugin = uniq('nx-graphql');
+  //     ensureNxProject('@filware/nx-graphql', 'dist/packages/nx-graphql');
+  //     await runNxCommandAsync(
+  //       `generate @filware/nx-graphql:app ${plugin} --tags e2etag,e2ePackage`
+  //     );
+  //     const nxJson = readJson('nx.json');
+  //     expect(nxJson.projects[plugin].tags).toEqual(['e2etag', 'e2ePackage']);
+  //     done();
+  //   });
+  // });
 });

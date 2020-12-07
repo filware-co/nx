@@ -1,0 +1,16 @@
+import { Field, ID, InputType } from 'type-graphql';
+
+@InputType()
+export class RegisterInput {
+  @Field()
+  name: string;
+
+  @Field(
+    type => [ID],
+    {
+      nullable: true,
+      defaultValue: [],
+    },
+  )
+  friendIds?: string[];
+}

@@ -3,10 +3,10 @@
   "name": "nx-graphql",
   "version": "0.0.1",
   "schematics": {
-    "nx-graphql": {
-      "factory": "./src/schematics/nx-graphql/schematic",
-      "schema": "./src/schematics/nx-graphql/schema.json",
-      "description": "nx-graphql schematic"
+    "app": {
+      "factory": "./src/schematics/app/schematic",
+      "schema": "./src/schematics/app/schema.json",
+      "description": "app schematic"
     }
   }
 }

@@ -1,0 +1,21 @@
+import { Field, ID, ObjectType } from 'type-graphql';
+
+import { Post } from '../posts';
+
+@ObjectType()
+export class User {
+  @Field(type => ID)
+  id: string;
+
+  @Field()
+  name: string;
+
+  @Field(type => [ID])
+  friendIds: string[];
+
+  @Field(type => [User])
+  friends: User[];
+
+  @Field(type => [Post])
+  posts: Post[];
+}

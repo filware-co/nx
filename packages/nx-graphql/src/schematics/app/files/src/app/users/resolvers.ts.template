@@ -1,0 +1,63 @@
+import mongoose from 'mongoose';
+import { Arg, FieldResolver, Mutation, Query, Resolver, ResolverInterface, Root } from 'type-graphql';
+
+import { RegisterInput } from './inputs';
+import { UserModel } from './models';
+import { User } from './types';
+
+import { PostModel } from '../posts/models';
+
+@Resolver(of => User)
+export class UserResolver implements ResolverInterface<User> {
+  @FieldResolver()
+  id(@Root() user) {
+    return user._id;
+  }
+
+  @FieldResolver()
+  async friends(@Root() user) {
+    return UserModel.find({
+      _id: {
+        $in: user.friendIds.map(friendId => mongoose.Types.ObjectId(friendId)),
+      }
+    }) as any;
+  }
+
+  @FieldResolver()
+  async posts(@Root() user) {
+    return PostModel.find({
+      authorId: mongoose.Types.ObjectId(user._id),
+    }) as any;
+  }
+
+  @Query(returns => [User])
+  async users() {
+    return UserModel.find({});
+  }
+
+  @Mutation(returns => User)
+  async register(@Arg('user') input: RegisterInput) {
+    const { name, friendIds } = input;
+
+    const user = new UserModel({
+      name,
+      friendIds,
+    });
+    await user.save();
+
+    const friends = await UserModel.find({
+      _id: {
+        $in: friendIds.map(friendId => mongoose.Types.ObjectId(friendId)),
+      },
+    });
+
+    if (friends) {
+      for (const friend of friends) {
+        (friend as any).friendIds.push(user._id);
+        await friend.save();
+      }
+    }
+
+    return user;
+  }
+}

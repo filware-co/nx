@@ -5,7 +5,7 @@ import { join } from 'path';
 
 import { NxGraphqlSchematicSchema } from './schema';
 
-describe('nx-graphql schematic', () => {
+describe('app schematic', () => {
   let appTree: Tree;
   const options: NxGraphqlSchematicSchema = { name: 'test' };
 
@@ -20,7 +20,7 @@ describe('nx-graphql schematic', () => {
 
   it('should run successfully', async () => {
     await expect(
-      testRunner.runSchematicAsync('nx-graphql', options, appTree).toPromise()
+      testRunner.runSchematicAsync('app', options, appTree).toPromise()
     ).resolves.not.toThrowError();
   });
 });
