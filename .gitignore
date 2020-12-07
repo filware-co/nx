@@ -24,6 +24,9 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 
+# IDE - Jetbrains
+.idea
+
 # misc
 /.sass-cache
 /connect.lock
@@ -37,3 +40,5 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+
+*.env
