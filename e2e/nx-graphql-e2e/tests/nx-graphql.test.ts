@@ -15,12 +15,8 @@ describe('nx-graphql e2e', () => {
 
     const result = await runNxCommandAsync(`build ${plugin}`);
     expect(result.stdout).toContain('Builder ran');
-
-    const result2 = await runNxCommandAsync(`serve ${plugin}`);
-    expect(result2.stdout).toContain('Builder ran');
-
     done();
-  });
+  }, 300000);
   //
   // describe('--directory', () => {
   //   it('should create src in the specified directory', async (done) => {
@@ -33,7 +29,7 @@ describe('nx-graphql e2e', () => {
   //       checkFilesExist(`apps/subdir/${plugin}/src/index.ts`)
   //     ).not.toThrow();
   //     done();
-  //   });
+  //   }, 300000);
   // });
   //
   // describe('--tags', () => {
@@ -46,6 +42,6 @@ describe('nx-graphql e2e', () => {
   //     const nxJson = readJson('nx.json');
   //     expect(nxJson.projects[plugin].tags).toEqual(['e2etag', 'e2ePackage']);
   //     done();
-  //   });
+  //   }, 300000);
   // });
 });

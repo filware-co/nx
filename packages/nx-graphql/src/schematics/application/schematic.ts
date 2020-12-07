@@ -2,10 +2,11 @@ import {
   apply,
   applyTemplates,
   chain,
+  externalSchematic,
   mergeWith,
   move,
   Rule,
-  url,
+  url
 } from '@angular-devkit/schematics';
 import {
   addProjectToNxJsonInTree,
@@ -66,25 +67,26 @@ function addFiles(options: NormalizedSchema): Rule {
 export default function (options: NxGraphqlSchematicSchema): Rule {
   const normalizedOptions = normalizeOptions(options);
   return chain([
-    updateWorkspace((workspace) => {
-      const projects = workspace.projects
-        .add({
-          name: normalizedOptions.projectName,
-          root: normalizedOptions.projectRoot,
-          sourceRoot: `${normalizedOptions.projectRoot}/src`,
-          projectType,
-        });
-
-      projects.targets.add({
-          name: 'build',
-          builder: '@filware/nx-graphql:build',
-        })
-
-      projects.targets.add({
-          name: 'serve',
-          builder: '@filware/nx-graphql:serve',
-        });
-    }),
+    // updateWorkspace((workspace) => {
+    //   const projects = workspace.projects
+    //     .add({
+    //       name: normalizedOptions.projectName,
+    //       root: normalizedOptions.projectRoot,
+    //       sourceRoot: `${normalizedOptions.projectRoot}/src`,
+    //       projectType,
+    //     });
+    //
+    //   projects.targets.add({
+    //       name: 'build',
+    //       builder: '@filware/nx-graphql:build',
+    //     })
+    //
+    //   projects.targets.add({
+    //       name: 'serve',
+    //       builder: '@filware/nx-graphql:serve',
+    //     });
+    // }),
+    externalSchematic('@nrwl/node', 'application', options),
     addProjectToNxJsonInTree(normalizedOptions.projectName, {
       tags: normalizedOptions.parsedTags,
     }),
