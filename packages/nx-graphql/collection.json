@@ -1,0 +1,12 @@
+{
+  "$schema": "../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "name": "nx-graphql",
+  "version": "0.0.1",
+  "schematics": {
+    "nx-graphql": {
+      "factory": "./src/schematics/nx-graphql/schematic",
+      "schema": "./src/schematics/nx-graphql/schema.json",
+      "description": "nx-graphql schematic"
+    }
+  }
+}

@@ -1,0 +1,72 @@
+{
+  "version": 1,
+  "projects": {
+    "nx-graphql": {
+      "root": "packages/nx-graphql",
+      "sourceRoot": "packages/nx-graphql/src",
+      "projectType": "library",
+      "schematics": {},
+      "architect": {
+        "lint": {
+          "builder": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": ["packages/nx-graphql/**/*.ts"]
+          }
+        },
+        "test": {
+          "builder": "@nrwl/jest:jest",
+          "options": {
+            "jestConfig": "packages/nx-graphql/jest.config.js",
+            "passWithNoTests": true
+          }
+        },
+        "build": {
+          "builder": "@nrwl/node:package",
+          "options": {
+            "outputPath": "dist/packages/nx-graphql",
+            "tsConfig": "packages/nx-graphql/tsconfig.lib.json",
+            "packageJson": "packages/nx-graphql/package.json",
+            "main": "packages/nx-graphql/src/index.ts",
+            "assets": [
+              "packages/nx-graphql/*.md",
+              {
+                "input": "./packages/nx-graphql/src",
+                "glob": "**/*.!(ts)",
+                "output": "./src"
+              },
+              {
+                "input": "./packages/nx-graphql",
+                "glob": "collection.json",
+                "output": "."
+              },
+              {
+                "input": "./packages/nx-graphql",
+                "glob": "builders.json",
+                "output": "."
+              }
+            ]
+          }
+        }
+      }
+    },
+    "nx-graphql-e2e": {
+      "projectType": "application",
+      "root": "e2e/nx-graphql-e2e",
+      "sourceRoot": "e2e/nx-graphql-e2e/src",
+      "architect": {
+        "e2e": {
+          "builder": "@nrwl/nx-plugin:e2e",
+          "options": {
+            "target": "nx-graphql:build",
+            "npmPackageName": "@filware/nx-graphql",
+            "pluginOutputPath": "dist/packages/nx-graphql",
+            "jestConfig": "e2e/nx-graphql-e2e/jest.config.js"
+          }
+        }
+      }
+    }
+  },
+  "cli": {
+    "defaultCollection": "@nrwl/workspace"
+  }
+}
