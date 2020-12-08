@@ -3,6 +3,7 @@ import {
   applyTemplates,
   chain,
   externalSchematic,
+  MergeStrategy,
   mergeWith,
   move,
   Rule,
@@ -14,8 +15,7 @@ import {
   offsetFromRoot,
   projectRootDir,
   ProjectType,
-  toFileName,
-  updateWorkspace,
+  toFileName
 } from '@nrwl/workspace';
 import { NxGraphqlSchematicSchema } from './schema';
 
@@ -60,7 +60,8 @@ function addFiles(options: NormalizedSchema): Rule {
         offsetFromRoot: offsetFromRoot(options.projectRoot),
       }),
       move(options.projectRoot),
-    ])
+    ]),
+    MergeStrategy.Overwrite,
   );
 }
 
