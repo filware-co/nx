@@ -1,6 +1,11 @@
 {
   "name": "@filware/nx-graphql",
-  "version": "0.0.4",
+  "version": "0.0.5",
+  "homepage": "https://github.com/filware-co/nx",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/filware-co/nx"
+  },
   "main": "src/index.js",
   "schematics": "./collection.json",
   "builders": "./builders.json",
